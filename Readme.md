@@ -138,3 +138,7 @@
 ![image-20241006180559654](Readme.assets/image-20241006180559654.png)
 
 ### 第四次课后作业：Vuex状态管理
+
+详情查看`test4`
+
+![image-20241006181941125](Readme.assets/image-20241006181941125.png)
