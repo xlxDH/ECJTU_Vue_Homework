@@ -123,3 +123,8 @@
 
 
 
+### 第二次课后作业：Vue基础入门与模板语法
+
+详情查看`test2`
+
+![image-20241006161440145](D:\MyCourse\Vue\Vhomework\Readme.assets\image-20241006161440145.png)
