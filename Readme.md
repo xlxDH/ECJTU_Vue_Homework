@@ -127,4 +127,4 @@
 
 详情查看`test2`
 
-![image-20241006161440145](D:\MyCourse\Vue\Vhomework\Readme.assets\image-20241006161440145.png)
+![image-20241006161440145](Readme.assets/image-20241006161440145.png)
