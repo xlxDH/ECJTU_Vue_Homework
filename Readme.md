@@ -127,11 +127,163 @@
 
 详情查看`test2`
 
+```vue
+<template>
+    <div>
+      <h1 v-bind:title="title">{{ title }}</h1> <!-- 动态绑定title -->
+      <input v-model="inputValue" placeholder="输入一些内容" /> <!-- 双向数据绑定 -->
+      <p>你输入的内容是: {{ inputValue }}</p> <!-- 显示输入的值 -->
+  
+      <p v-if="isActive">状态是：激活</p> <!-- 根据isActive显示不同文本 -->
+      <p v-else-if="!isActive">状态是：未激活</p>
+      <button @click="toggleActive">切换状态</button> <!-- 切换状态按钮 -->
+    </div>
+  </template>
+  
+  <script>
+  export default {
+    name:'MyComponent',
+    data() {
+      return {
+        title: '欢迎使用',
+        inputValue: '',
+        isActive: true,
+      };
+    },
+    methods: {
+      toggleActive() {
+        this.isActive = !this.isActive; // 切换isActive的值
+      },
+    },
+  };
+  </script>
+  
+  <style scoped>
+  </style>
+```
+
+
+
 ![image-20241006161440145](Readme.assets/image-20241006161440145.png)
 
 ### 第三次课后作业：Vue组件化开发与路由管理
 
 详情查看`test3`
+
+```vue
+<template>
+    <div>
+      <h2>子组件一</h2>
+      <p>{{ message }}</p>
+      <button @click="sendResponse">发送响应</button>
+    </div>
+  </template>
+  
+  <script>
+  export default {
+    props: ['message'],
+    methods: {
+      sendResponse() {
+        this.$emit('response', '子组件一的响应');
+      }
+    }
+  };
+  </script>
+  
+  <style scoped>
+  /* 添加样式 */
+  </style>
+  
+```
+
+```vue
+<template>
+    <div>
+      <h2>子组件二</h2>
+      <p>{{ message }}</p>
+      <button @click="sendResponse">发送响应</button>
+    </div>
+  </template>
+  
+  <script>
+  export default {
+    props: ['message'],
+    methods: {
+      sendResponse() {
+        this.$emit('response', '子组件二的响应');
+      }
+    }
+  };
+  </script>
+  
+  <style scoped>
+  /* 添加样式 */
+  </style>
+  
+```
+
+```vue
+<template>
+    <div>
+      <h1>登录页面</h1>
+      <button @click="login">登录</button>
+    </div>
+  </template>
+  
+  <script>
+  export default {
+    methods: {
+      login() {
+        localStorage.setItem('loggedIn', 'true'); // 模拟登录
+        this.$router.push('/'); // 登录后重定向到首页
+      }
+    }
+  };
+  </script>
+  
+  <style scoped>
+  /* 添加样式 */
+  </style>
+  
+```
+
+```vue
+<template>
+    <div>
+      <h1>父组件</h1>
+      <ChildOne :message="messageFromParent" @response="handleResponse" />
+      <ChildTwo :message="messageFromParent" @response="handleResponse" />
+      <p>子组件响应: {{ responseMessage }}</p>
+    </div>
+  </template>
+  
+  <script>
+  import ChildOne from './ChildOne.vue';
+  import ChildTwo from './ChildTwo.vue';
+  
+  export default {
+    components: { ChildOne, ChildTwo },
+    data() {
+      return {
+        messageFromParent: '来自父组件的消息',
+        responseMessage: ''
+      };
+    },
+    methods: {
+      handleResponse(response) {
+        this.responseMessage = response;
+      }
+    }
+  };
+  </script>
+  
+  <style scoped>
+  /* 添加样式 */
+  </style>
+  
+```
+
+
 
 ![image-20241006180528884](Readme.assets/image-20241006180528884.png)
 
@@ -140,5 +292,57 @@
 ### 第四次课后作业：Vuex状态管理
 
 详情查看`test4`
+
+```vue
+<template>
+    <div>
+      <h1>待办事项</h1>
+      <input v-model="newTodo" @keyup.enter="handleAddTodo" placeholder="添加新的待办事项" />
+      <ul>
+        <li v-for="(todo, index) in todos" :key="index">
+          <span :class="{ completed: todo.completed }">{{ todo.text }}</span>
+          <button @click="toggleTodo(index)">切换完成</button>
+          <button @click="removeTodo(index)">删除</button>
+        </li>
+      </ul>
+    </div>
+  </template>
+  
+  <script>
+  import { mapGetters, mapActions } from 'vuex';
+  
+  export default {
+    data() {
+      return {
+        newTodo: ''
+      };
+    },
+    computed: {
+      ...mapGetters(['allTodos']),
+      todos() {
+        return this.allTodos;
+      }
+    },
+    methods: {
+      ...mapActions(['addTodo', 'removeTodo', 'toggleTodo']),
+      handleAddTodo() { // 修改方法名，避免冲突
+        if (this.newTodo) {
+          this.addTodo(this.newTodo); // 调用 Vuex action
+          this.newTodo = ''; // 清空输入框
+        }
+      }
+    }
+  };
+  </script>
+  
+  <style scoped>
+  .completed {
+    text-decoration: line-through;
+  }
+  </style>
+  
+```
+
+
 
 ![image-20241006181941125](Readme.assets/image-20241006181941125.png)
